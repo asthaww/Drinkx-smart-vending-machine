@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DrinkX Kiosk</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- RAZORPAY CHECKOUT SCRIPT -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Header -->
+        <header class="main-header">
+            <img src="{{ url_for('static', filename='DrinkXLogo.png') }}" alt="DrinkX Logo" class="logo">
+            <button id="dashboard-button" class="dashboard-toggle-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 12c-3.31 0-6 2.69-6 6v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1c0-3.31-2.69-6-6-6z"/></svg>
+                <span>My Stats</span>
+            </button>
+        </header>
+
+        <!-- Selection Screen -->
+        <div id="selection-screen" class="screen active">
+            <h2>Build Your Shake</h2>
+            
+            <fieldset class="option-group">
+                <legend>1. Choose Your Base</legend>
+                <div id="base-options" class="options-container">
+                    <label class="option-card selected">
+                        <input type="radio" name="base" value="water" checked>
+                        <span>Water (Default)</span>
+                    </label>
+                    <label class="option-card">
+                        <input type="radio" name="base" value="milk">
+                        <span>Milk <span class="price">+ ₹10.00</span></span>
+                    </label>
+                </div>
+            </fieldset>
+
+            <fieldset class="option-group">
+                <legend>2. Choose Your Size</legend>
+                <div id="size-options" class="options-container"></div>
+            </fieldset>
+
+            <fieldset class="option-group">
+                <legend>3. Choose Your Flavor</legend>
+                <div id="flavor-options" class="options-container">
+                    <label class="option-card selected">
+                        <input type="radio" name="flavor" value="chocolate" checked>
+                        <span>Chocolate</span>
+                    </label>
+                    <label class="option-card">
+                        <input type="radio" name="flavor" value="vanilla">
+                        <span>Vanilla</span>
+                    </label>
+                    <label class="option-card">
+                        <input type="radio" name="flavor" value="strawberry">
+                        <span>Strawberry</span>
+                    </label>
+                </div>
+            </fieldset>
+
+            <fieldset class="option-group">
+                <legend>4. Add-Ons</legend>
+                <div id="addon-options" class="options-container"></div>
+            </fieldset>
+
+            <div class="summary-container">
+                <div class="total-price">Total: <span id="total-price">₹0.00</span></div>
+                <button id="pay-button" class="cta-button" disabled>Select a Size</button>
+            </div>
+        </div>
+
+        <!-- Dispensing Screen -->
+        <div id="dispensing-screen" class="screen">
+            <div class="status-box">
+                <div class="spinner"></div>
+                <h2>Mixing your <span id="shake-name">shake</span>...</h2>
+                <p>Please wait while we prepare your protein boost!</p>
+            </div>
+        </div>
+
+        <!-- Complete Screen -->
+        <div id="complete-screen" class="screen">
+            <div class="status-box">
+                <svg class="checkmark" viewBox="0 0 52 52">
+                    <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                </svg>
+                <h2>All Done!</h2>
+                <p>Enjoy your shake!</p>
+            </div>
+        </div>
+
+        <!-- Dashboard Screen -->
+        <div id="dashboard-screen" class="screen">
+            <div class="dashboard-header">
+                <h2>My Dashboard</h2>
+                <button id="dashboard-close-button" class="close-button">&times;</button>
+            </div>
+            <div class="loyalty-banner">
+                <span class="loyalty-icon">🎉</span>
+                <strong>You are 1 shake away from receiving a FREE shake!</strong>
+            </div>
+            <div class="user-info">
+                <h3>Hello, Dibyendu</h3>
+                <p>Here's your weekly summary:</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card"><span class="stat-value">4</span><span class="stat-label">Shakes This Week</span></div>
+                <div class="stat-card"><span class="stat-value">120g</span><span class="stat-label">Protein Consumed</span></div>
+                <div class="stat-card"><span class="stat-value">₹360</span><span class="stat-label">Total Spent</span></div>
+            </div>
+            <div class="chart-container">
+                <h3>Weekly Protein Intake</h3>
+                <canvas id="protein-chart"></canvas>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
